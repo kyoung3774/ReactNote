@@ -4,12 +4,10 @@ import { useState } from 'react';
 function Header(props) {
   return (
     <header>
-      <h1><a href='/' onClick={
-        (event) => {
-          event.preventDefault();
-          props.onChangeMode();
-        }
-      }>{props.title}</a></h1>
+      <h1><a href='/' onClick={(event) => {
+        event.preventDefault();
+        props.onChangeMode();
+      }}>{props.title}</a></h1>
     </header>
   );
 }
@@ -41,170 +39,57 @@ function Article(props) {
   );
 }
 
-function Create(props) {
-  return (
-    <article>
-      <h2>Create</h2>
-      <form onSubmit={
-        (event) => {
-          event.preventDefault();
-          const title = event.target.title.value;
-          const body = event.target.body.value;
-          props.onCreate(title, body);
-        }
-      }>
-        <p>
-          <input type='text' name='title' placeholder='title'></input>
-        </p>
-        <p>
-          <textarea name='body' placeholder='body'></textarea>
-        </p>
-        <p>
-          <input type='submit' value='Create'></input>
-        </p>
-      </form>
-    </article>
-  );
-}
-
-function Update(props) {
-
-  const [title, setTitle] = useState(props.title);
-  const [body, setBody] = useState(props.body);
-  
-  return (
-    <article>
-      <h2>Update</h2>
-      <form onSubmit={
-        (event) => {
-          event.preventDefault();
-          const title = event.target.title.value;
-          const body = event.target.body.value;
-          props.onUpdate(title, body);
-        }
-      }>
-        <p>
-          <input type='text' name='title' value={title} placeholder='title' onChange={(event) => {
-            event.preventDefault();
-            setTitle(event.target.value);
-          }}></input>
-        </p>
-        <p>
-          <textarea name='body' value={body} placeholder='body' onChange={(event) => {
-            event.preventDefault();
-            setBody(event.target.value);
-          }}></textarea>
-        </p>
-        <p>
-          <input type='submit' value='Update'></input>
-        </p>
-      </form>
-    </article>
-  );
-}
-
 function App() {
+  // state: 상태를 관리하며, 컴포넌트를 새로 생성하는 역할
+  let [mode, setMode] = useState('WELCOME'); // 인수: 초기값
 
-  let [mode, setMode] = useState('WELCOME');
+  // nav의 id를 저장할 state 생성
   let [id, setId] = useState(null);
-  let [nextId, setNextId] = useState(4);
-  let content = null;
-  let contextControl = null;
 
-  let [topics, setTopics] = useState([
+  // 본문을 저장할 수 있는 변수
+  let content = null;
+
+  const topics = [
     { id: 1, title: 'html', body: 'html is..' },
     { id: 2, title: 'css', body: 'css is..' },
     { id: 3, title: 'javascript', body: 'javascript is..' }
-  ]);
+  ];
 
+  // 모드에 따라 Article 컴포넌트를 생성
   if (mode === "WELCOME") {
     content = <Article title="Welcome" body="Hello, Web"></Article>
-
   } else if (mode === "READ") {
+
+    // 선택한 id에 따라 Article 컴포넌트 생성
     let title, body = null;
 
     for (let t of topics) {
-      if (t.id === Number(id)) {
+      if (t.id === Number(id)) { // 배열의 id와 현재 id가 같은지 비교
         title = t.title;
         body = t.body;
       }
     }
     content = <Article title={title} body={body}></Article>
-
-    contextControl =<><a className='update-a' href={'/update/' + id} onClick={(event) => {
-      event.preventDefault();
-      setMode('UPDATE');
-    }}>Update</a>
-    <input className='delete-a' type='button' value='Delete' onClick={() => {
-      const newTopics = [];
-      for(let t of topics) {
-        if(t.id !== Number(id)) {
-          newTopics.push(t);
-        }
-      }
-      setTopics(newTopics);
-      setMode('WELCOME');
-    }}></input>
-    </>
-  } else if (mode === "CREATE") {
-    content = <Create onCreate={(title, body) => {
-      const newTopics = [...topics];
-      let newTopic = { id: nextId, title: title, body: body }
-      newTopics.push(newTopic);
-      setTopics(newTopics);
-      setMode('READ');
-      setId(nextId);
-      setNextId(nextId + 1);
-    }}>
-    </Create>
-
-  } else if (mode === 'UPDATE') {
-    let title, body = null;
-
-    for (let t of topics) {
-      if (t.id === Number(id)) {
-        title = t.title;
-        body = t.body;
-      }
-    }
-    content = <Update title={title} body={body} onUpdate={(title, body) => {
-      const newTopics = [...topics];
-      const updateTopic = {id: Number(id), title: title, body: body};
-      for(let i in newTopics) {
-        if(newTopics[i].id === Number(id)) {
-          newTopics[i] = updateTopic;
-        }
-      }
-      setTopics(newTopics);
-      setMode('READ');
-    }}></Update>
   }
 
   return (
     <div>
+      {/* Header를 클릭하면 모드가 WELCOME으로 변경 */}
       <Header title="Web" onChangeMode={
         () => {
           setMode('WELCOME');
         }}>
       </Header>
 
+      {/* Nav를 클릭하면 모드가 READ로 변경 */}
       <Nav topics={topics} onChangeMode={
         (id) => {
           setMode('READ');
           setId(id);
         }}>
       </Nav>
-
       {content}
-
-      <a href='/create' onClick={(event) => {
-        event.preventDefault();
-        setMode('CREATE');
-      }
-      }>Create</a>
-
-      {contextControl}
-    </div >
+    </div>
   );
 }
 

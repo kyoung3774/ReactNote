@@ -1,9 +1,7 @@
-import logo from './logo.svg';
 import './App.css';
 import { useState } from 'react';
 
 function Header(props) {
-
   return (
     <header>
       <h1><a href='/' onClick={
@@ -16,7 +14,6 @@ function Header(props) {
   );
 }
 
-//
 function Nav(props) {
 
   const lis = [];
@@ -38,7 +35,6 @@ function Nav(props) {
 }
 
 function Article(props) {
-
   return (
     <article>
       <h2>{props.title}</h2>
@@ -48,9 +44,6 @@ function Article(props) {
 }
 
 function App() {
-
-  // 모드를 결정하는 변수
-  // let mode = "WELCOME";
 
   // 모드를 state로 생성
   // state: 상태를 관리하며, 컴포넌트를 새로 생성하는 역할
@@ -71,13 +64,14 @@ function App() {
   // 모드에 따라 Article 컴포넌트를 생성
   if (mode === "WELCOME") {
     content = <Article title="Welcome" body="Hello, Web"></Article>
+
   } else if (mode === "READ") {
-    
+
     // 선택한 id에 따라 Article 컴포넌트 생성
     let title, body = null;
-    
-    for(let t of topics) {
-      if(t.id === Number(id)) { // 배열의 id와 현재 id가 같은지 비교
+
+    for (let t of topics) {
+      if (t.id === Number(id)) { // 배열의 id와 현재 id가 같은지 비교
         title = t.title;
         body = t.body;
       }
@@ -88,18 +82,14 @@ function App() {
   return (
     <div>
       {/* Header를 클릭하면 모드가 WELCOME으로 변경 */}
-      <Header title="Web" onChangeMode={
-        () => {
-          setMode('WELCOME');
-        }}>
+      <Header title="Web" onChangeMode={() => {
+        setMode('WELCOME');}}>
       </Header>
 
       {/* Nav를 클릭하면 모드가 READ로 변경 */}
-      <Nav topics={topics} onChangeMode={
-        (id) => {
+      <Nav topics={topics} onChangeMode={(id) => {
           setMode('READ');
-          setId(id);
-        }}>
+          setId(id);}}>
       </Nav>
       {content}
     </div>
