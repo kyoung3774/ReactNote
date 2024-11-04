@@ -31,7 +31,6 @@ function Article(props) {
 }
 
 function App() {
-  
   const topics = [
     { id: 1, title: 'html', body: 'html is..' },
     { id: 2, title: 'css', body: 'css is..' },
@@ -40,7 +39,7 @@ function App() {
 
   return (
     <div>
-      <Header title="Web"></Header>
+      <Header title="Header"></Header>
       <Nav topics={topics}></Nav>
       <Article title="Welcome" body="Hello, Web"></Article>
       <Article title="Hi" body="Hello, React"></Article>

@@ -12,11 +12,12 @@ function App() {
       <h1>Hello React Router DOM</h1>
       <ul>
         {/* a태그 -> Link컴포넌트, herf속성 -> to속성 */}
-        {/* a태그: 클릭시 마다 request 발생 */}
-        {/* Link컴포넌트:  */}
-        <li><NavLink to='/'>Home</NavLink></li>
-        <li><NavLink to='/topics'>Topics</NavLink></li>
-        <li><NavLink to='/contact'>Contact</NavLink></li>
+        {/* a태그: 클릭시 마다 request 발생(페이지 리로딩) */}
+        {/* Link컴포넌트: requset 미발생(페이지 미리로딩)*/}
+        {/* NavLinK컴포넌트: 속성(class)=리터럴('active') 생성 및 자동 적용 */}
+        <li><NavLink to='/'>HomeLink</NavLink></li>
+        <li><NavLink to='/topics'>TopicsLink</NavLink></li>
+        <li><NavLink to='/contact'>ContactLink</NavLink></li>
       </ul>
 
       <Routes>
