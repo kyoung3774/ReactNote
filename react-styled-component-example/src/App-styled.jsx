@@ -11,7 +11,7 @@ const SimpleButton = stlyed.button`
 const LargeButton = stlyed(SimpleButton)`
   font-size: 50px;
 `;
-
+0
 // 일반 방식으로 버튼 컴포넌트 생성
 const ReactButton = (props) => {
   return (

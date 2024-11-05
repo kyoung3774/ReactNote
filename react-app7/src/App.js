@@ -5,7 +5,7 @@ function Header(props) {
   return (
     <header>
       <h1><a href='/' onClick={(event) => {
-          event.preventDefault();
+          event.preventDefault(); // 페이지 이동 방지
           props.onChangeMode();}}>{props.title}</a>
       </h1>
     </header>
@@ -73,6 +73,7 @@ function App() {
     content = <Article title={title} body={body}></Article> // 클릭한 Nav 요소
   }
 
+  // 브라우져 화면 구현부
   return (
     <div>
       {/* Header를 클릭하면 모드가 WELCOME으로 변경 */}
